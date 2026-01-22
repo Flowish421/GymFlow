@@ -1,4 +1,6 @@
-
+using Application.Services;
+using Application.Interfaces;
+using Infrastructure.Repositories;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 
@@ -6,6 +8,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services
 builder.Services.AddControllers();
+builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+builder.Services.AddScoped<TaskService>();
+builder.Services.AddScoped<ProjectService>();
+builder.Services.AddScoped<UserService>();
+
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(
