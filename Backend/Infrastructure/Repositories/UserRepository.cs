@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ﻿using Application.Interfaces;
+=======
+using Application.Interfaces;
+>>>>>>> feature/repository-and-services
 using Domain.Entities;
 using Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +19,7 @@ public class UserRepository : IUserRepository
     }
 
     public async Task<IEnumerable<User>> GetAllAsync()
+<<<<<<< HEAD
     {
         return await _context.Users
             .AsNoTracking()
@@ -26,6 +31,12 @@ public class UserRepository : IUserRepository
         return await _context.Users
             .FirstOrDefaultAsync(u => u.Id == id);
     }
+=======
+        => await _context.Users.ToListAsync();
+
+    public async Task<User?> GetByIdAsync(int id)
+        => await _context.Users.FindAsync(id);
+>>>>>>> feature/repository-and-services
 
     public async Task AddAsync(User user)
     {
@@ -33,12 +44,15 @@ public class UserRepository : IUserRepository
         await _context.SaveChangesAsync();
     }
 
+<<<<<<< HEAD
     public async Task UpdateAsync(User user)
     {
         _context.Users.Update(user);
         await _context.SaveChangesAsync();
     }
 
+=======
+>>>>>>> feature/repository-and-services
     public async Task DeleteAsync(User user)
     {
         _context.Users.Remove(user);

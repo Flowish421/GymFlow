@@ -1,12 +1,18 @@
+<<<<<<< HEAD
 ﻿using Application.DTOs;
 using Application.Interfaces;
 using Domain.Entities;
 using Domain.Models;
+=======
+using Application.Interfaces;
+using Domain.Entities;
+>>>>>>> feature/repository-and-services
 
 namespace Application.Services;
 
 public class TaskService
 {
+<<<<<<< HEAD
     private readonly ITaskRepository _repo;
 
     public TaskService(ITaskRepository repo)
@@ -56,5 +62,35 @@ public class TaskService
 
         await _repo.DeleteAsync(existing);
         return true;
+=======
+    private readonly ITaskRepository _taskRepository;
+
+    public TaskService(ITaskRepository taskRepository)
+    {
+        _taskRepository = taskRepository;
+    }
+
+    public async Task<IEnumerable<TaskItem>> GetAllAsync()
+        => await _taskRepository.GetAllAsync();
+
+    public async Task<TaskItem> CreateAsync(TaskItem task)
+    {
+        task.Status ??= "New";
+        task.CreatedAt = DateTime.UtcNow;
+
+        await _taskRepository.AddAsync(task);
+        return task;
+    }
+
+    public async Task UpdateAsync(TaskItem task)
+        => await _taskRepository.UpdateAsync(task);
+
+    public async Task DeleteAsync(int id)
+    {
+        var task = await _taskRepository.GetByIdAsync(id);
+        if (task is null) return;
+
+        await _taskRepository.DeleteAsync(task);
+>>>>>>> feature/repository-and-services
     }
 }
