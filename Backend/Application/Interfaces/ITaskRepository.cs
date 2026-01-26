@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 ﻿using Domain.Entities;
 using Domain.Models;
-=======
-using Domain.Entities;
->>>>>>> feature/repository-and-services
 
 namespace Application.Interfaces;
 
