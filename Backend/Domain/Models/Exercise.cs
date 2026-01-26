@@ -14,5 +14,6 @@ namespace Domain.Models
         public DifficultyLevel DifficultyLevel { get; set; }
 
         public ICollection<ExerciseMuscleGroup> ExerciseMuscleGroups { get; set; } = new List<ExerciseMuscleGroup>();
+        public string Description { get; set; }
     }
 }

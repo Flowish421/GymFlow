@@ -1,4 +1,5 @@
 using Application.DTOs.Exercises;
+using Domain.Enums;
 using Domain.Models;
 
 namespace Application.Mapping;
@@ -25,8 +26,4 @@ public static class ExerciseMapping
             DifficultyLevel = Enum.Parse<DifficultyLevel>(dto.DifficultyLevel)
         };
     }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> feature/repository-and-services
