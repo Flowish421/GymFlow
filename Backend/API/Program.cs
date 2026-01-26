@@ -1,49 +1,37 @@
-using Infrastructure.Database;
-using Infrastructure.Repositories;
-using Application.Interfaces;
-using Application.Services;
-using Microsoft.EntityFrameworkCore;
+using Application;
+using Infrastructure;
+using MediatR;
+using AutoMapper;
+using Microsoft.Extensions.DependencyInjection;
+//using System.Reflection.Metadata;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// =====================
-// Add services
-// =====================
-
 builder.Services.AddControllers();
 
-// DbContext
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("DefaultConnection")
-    )
-);
-
-// =====================
-// Dependency Injection
-// =====================
-
-// Repositories
-builder.Services.AddScoped<ITaskRepository, TaskRepository>();
-builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-
-// Services
-builder.Services.AddScoped<TaskService>();
-builder.Services.AddScoped<ProjectService>();
-builder.Services.AddScoped<UserService>();
-
-// =====================
 // Swagger
-// =====================
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddAutoMapper(cfg =>
+{
+    // Lägg till alla profiler som finns i Application assembly
+    cfg.AddMaps(typeof(AssemblyReference).Assembly);
+});
+
+
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssembly(typeof(Application.AssemblyReference).Assembly);
+});
+
+
+
+// Infrastructure (DbContext, repositories)
+builder.Services.AddInfrastructure(builder.Configuration);
+
 var app = builder.Build();
 
-// =====================
-// Configure pipeline
-// =====================
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -51,9 +39,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
